@@ -6,15 +6,15 @@ import (
 	"net/http"
 )
 
-// TaskForm is task handler parameter.
-type TaskForm struct {
+// Task is task handler parameter.
+type Task struct {
 	Id     string   `json:"id"`
 	Labels []string `json:"label"`
 }
 
 // valid method check parameter valid.
 // must put `return true` bottom
-func (f TaskForm) valid() (bool, error) {
+func (f Task) valid() (bool, error) {
 	if f.Id == "" {
 		return false, errors.New("lack `id` query param")
 	}
@@ -22,15 +22,15 @@ func (f TaskForm) valid() (bool, error) {
 	return true, nil
 }
 
-func NewTask(r *http.Request) (TaskForm, error) {
+func NewTask(r *http.Request) (Task, error) {
 	vm := r.URL.Query()
-	f := TaskForm{
+	f := Task{
 		Id:     vm.Get("id"),
 		Labels: dotParse(vm.Get("label")),
 	}
 
 	if b, err := f.valid(); !b {
-		return TaskForm{}, errors.New(fmt.Sprintf("validation error: %v", err))
+		return Task{}, errors.New(fmt.Sprintf("validation error: %v", err))
 	}
 
 	return f, nil
