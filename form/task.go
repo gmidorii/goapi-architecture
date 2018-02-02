@@ -22,7 +22,7 @@ func (f Task) valid() (bool, error) {
 	return true, nil
 }
 
-func NewTask(r *http.Request) (Task, error) {
+func NewTask(r *http.Request) (Former, error) {
 	vm := r.URL.Query()
 	f := Task{
 		Id:     vm.Get("id"),
